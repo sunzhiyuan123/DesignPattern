@@ -5,8 +5,8 @@ using namespace std;
 
 int main( )
 {
-	AbstractFactory *pFactory = new TStandardFactory<ConcreteProduct1>( );
-	AbstractProduct *pProduct = pFactory->CreateProduct( );
+	IAbstractFactory<ConcreteProduct1> *pFactory = new TStandardFactory<ConcreteProduct1>( );
+	IAbstractProduct  *pProduct = pFactory->CreateProduct( );
 	pProduct->ProductOperation( );
 	delete pProduct;
 	delete pFactory;

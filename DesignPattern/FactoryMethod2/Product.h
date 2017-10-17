@@ -4,14 +4,14 @@
 #include <iostream>
 using namespace std;
 
-class AbstractProduct
+class IAbstractProduct
 {
 public:
-	virtual ~AbstractProduct( );
+	virtual ~IAbstractProduct( );
 	virtual void ProductOperation( ) = 0;
 };
 
-class ConcreteProduct1:public AbstractProduct
+class ConcreteProduct1:public IAbstractProduct
 {
 public:
 	ConcreteProduct1( );
@@ -19,7 +19,7 @@ public:
 	virtual void ProductOperation( );
 };
 
-class ConcreteProduct2:public AbstractProduct
+class ConcreteProduct2:public IAbstractProduct
 {
 public:
 	ConcreteProduct2( );

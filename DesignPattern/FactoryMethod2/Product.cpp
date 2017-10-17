@@ -2,15 +2,15 @@
 #include <iostream>
 using namespace std;
 
-//class AbstractProduct
-AbstractProduct::~AbstractProduct( )
+//class IAbstractProduct
+IAbstractProduct::~IAbstractProduct( )
 {
-	cout<<"AbstractProduct::~AbstractProduct( )"<<endl;
+	cout<<"IAbstractProduct::~IAbstractProduct( )"<<endl;
 }
 
-void AbstractProduct::ProductOperation( )
+void IAbstractProduct::ProductOperation( )
 {
-	cout<<"void AbstractProduct::ProductOperation( )"<<endl;
+	cout<<"void IAbstractProduct::ProductOperation( )"<<endl;
 }
 
 //class ConcreteProduct1

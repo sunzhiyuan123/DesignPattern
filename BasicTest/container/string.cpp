@@ -5,6 +5,7 @@
 #include <mutex>
 #include <vector>
 #include <string>
+#include <algorithm>
 using namespace std;  
 
 void test_string1( )
@@ -90,12 +91,34 @@ void test_string4( )
 	cout<<"s3:"<<s3<<endl;
 }
 
+void test_string5( )
+{
+	string s1 = "hello1 hello2 hello3";
+	string::iterator it = find(s1.begin( ),s1.end( ),'l');
+	if(it != s1.end( ))
+	{
+		s1.erase(it);
+	}
+	cout<<"afer:"<<s1<<endl;
+	
+	s1.erase(s1.begin( ), s1.end( ));
+	cout<<"delete all:"<<s1<<endl;
+	cout<<"s1 length="<<s1.length( )<<endl;
+	
+	string s2 = "BBB";
+	s2.insert(0,"AAA");           //头部插入
+	cout<<"s2="<<s2<<endl;
+	s2.insert(s2.length( ),"CCC");//尾部插入
+	cout<<"s2="<<s2<<endl;
+}
+
 int main( )
 {
 	//test_string1( );
 	//test_string2( );
 	//test_string3( );
-	test_string4( );
+	//test_string4( );
+	test_string5( );
 	
     return 0;
 }

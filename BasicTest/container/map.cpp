@@ -53,7 +53,7 @@ void test_map2( )
 	pair<map<int,string>::iterator,bool> pair3 = map1.insert(make_pair(3,"teacher3"));
 	map1.insert(make_pair(4,"teacher4"));
 	//方法3
-	pair<map<int,string>::iterator,bool> pair5 = map1.insert(map<int,string>::value_type(5,"teacher5"));
+	pair<map<int,string>::iterator,bool> pair5 = map1.insert(pair<int,string>(5,"teacher5"));
 	if(pair5.second != true)
 	{
 		cout<<"insert error"<<endl;
@@ -62,7 +62,8 @@ void test_map2( )
 	{
 		cout<<pair5.first->first<<" "<<pair5.first->second<<endl;
 	}
-	pair<map<int,string>::iterator,bool> pair6 = map1.insert(map<int,string>::value_type(5,"teacher6"));
+	
+	pair<map<int,string>::iterator,bool> pair6 = map1.insert(pair<int,string>(5,"teacher6"));
 	if(pair6.second != true)
 	{
 		cout<<"insert error"<<endl;
@@ -74,8 +75,6 @@ void test_map2( )
 	//方法4
 	map1[7] = "teacher7";
 	map1[7] = "teacher77";
-	
-	cout<<" ";
 	
 	for(map<int,string>::iterator it=map1.begin( );it!=map1.end( );it++)
 	{
@@ -139,8 +138,8 @@ void test_map3( )
 int main( )
 {
 	//test_map1( );
-	//test_map2( );
-	test_map3( );
+	test_map2( );
+	//test_map3( );
 	
     return 0;
 }

@@ -1,32 +1,54 @@
 #include <iostream>
 #include <vector>
+#include <memory>
 using namespace std;
 
 class Singleton
 {
- public:
-   static Singleton& GetInstance( )
+public:
+    //全局访问接口
+    static Singleton& GetInstance( )
     {
-       static Singleton instance_;              
-	   return instance_;
+		static std::unique_ptr<Singleton> instance;
+		
+		if (nullptr == instance)
+		{
+			instance = std::unique_ptr<Singleton>(new Singleton);
+		}
+		
+        return *instance;
     }
+	
+	void print( )
+	{
+		cout<<"enter print"<<endl;
+	}
+	
     ~Singleton( )
     {
-        cout << "~Singleton"<<endl;
+        cout << "~Singleton"<< endl;
     }
+	
 private:
-	Singleton( )
-	{
-		cout << "Singleton "<<endl;
-	}
-	Singleton(const Singleton &other);
-	Singleton & operator=(const Singleton &other);
+    Singleton(Singleton&) = delete;
+    Singleton( )
+    {
+		cout << "Singleton"<<endl;
+    }
 };
 
-int main(int argc, char *argv[])
+void test1( )
 {
-	Singleton &s1 = Singleton::GetInstance( );  
-	Singleton &s2 = Singleton::GetInstance( ); //s1与s2是同一对象的引用  
+	Singleton& s1 = Singleton::GetInstance( );
+	s1.print( );
+	auto& s2 = Singleton::GetInstance( );
+	s2.print( );
+}
+
+int main(void)
+{
+	test1( );
+	cout << "exit"<<endl;
 	
-	return 0;
+    return 0;  
 }

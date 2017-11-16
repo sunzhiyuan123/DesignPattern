@@ -135,11 +135,46 @@ void test_map3( )
 	}
 }
 
+void test_map4( )
+{
+	map<int,string> map1;
+	//方法1
+	map1.insert(pair<int,string>(1,"teacher1"));
+	map1.insert(pair<int,string>(2,"teacher2"));
+	//方法2
+	map1.insert(make_pair(3,"teacher3"));
+	map1.insert(make_pair(4,"teacher4"));
+	//方法3
+	map1.insert(map<int,string>::value_type(5,"teacher5"));
+	map1.insert(map<int,string>::value_type(6,"teacher6"));
+	
+	int key = 1;
+	
+	map<int,string>::iterator iter;
+	iter = map1.find(key);
+	if (iter == map1.end( ))
+	{
+		map1.insert(make_pair(key, "teacher1"));
+	}
+	else
+	{
+		map1.erase(iter);
+		map1.insert(make_pair(key, "teacher_1_new"));
+	}
+	
+	//for循环区间遍历
+	for(auto &it:map1)
+	{
+		cout<<it.first<<" "<<it.second<<endl;
+	}
+}
+
 int main( )
 {
 	//test_map1( );
-	test_map2( );
+	//test_map2( );
 	//test_map3( );
+	test_map4( );
 	
     return 0;
 }

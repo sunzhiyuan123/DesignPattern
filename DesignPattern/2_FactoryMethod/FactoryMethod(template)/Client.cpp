@@ -5,7 +5,7 @@ using namespace std;
 
 int main( )
 {
-	IAbstractFactory<ConcreteProduct1> *pFactory = new TStandardFactory<ConcreteProduct1>( );
+	IAbstractFactory  *pFactory = new ConcreteFactory<ConcreteProduct1>( );
 	IAbstractProduct  *pProduct = pFactory->CreateProduct( );
 	pProduct->ProductOperation( );
 	delete pProduct;
@@ -13,7 +13,7 @@ int main( )
 	
 	cout<<endl<<endl<<endl;
 #if 0
-	pFactory = new TStandardFactory<ConcreteProduct2>( );
+	pFactory = new ConcreteFactory<ConcreteProduct2>( );
 	pProduct = pFactory->CreateProduct( );
 	pProduct->ProductOperation( );
 	delete pProduct;

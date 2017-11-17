@@ -10,20 +10,12 @@ using namespace std;
 class Singleton
 {
 public:
-    //全局访问接口 非线程安全性
+    //全局访问接口 线程安全
     static Singleton& GetInstance( )
     {
-		if (nullptr == instance)
-		{
-			std::lock_guard<std::mutex> lck (mtx);
-			if (nullptr == instance)
-			{
-				cout<<"enter new singleton"<<endl;
-				instance = std::unique_ptr<Singleton>(new Singleton);
-			}
-		}
+		static Singleton instance;
 		
-        return *instance;
+		return instance;
     }
 	
     ~Singleton( )
@@ -38,11 +30,13 @@ private:
     {
 		cout << "Singleton"<<endl;
     }
-	static std::mutex mtx;
-	static std::unique_ptr<Singleton> instance;
 };
-std::mutex Singleton::mtx;
-std::unique_ptr<Singleton> Singleton::instance = nullptr;
+
+void test1( )
+{
+	Singleton& s1 = Singleton::GetInstance( );
+	auto&      s2 = Singleton::GetInstance( );
+}
 
 void test_singleton (int id)
 {

@@ -1,23 +1,23 @@
 #include <iostream>
 using namespace std;
 
-class Product
+class IAbstractProduct
 {
 public:
-	Product( )
+	IAbstractProduct( )
 	{
-		cout<< "Product ..."<<endl;
+		cout<< "IAbstractProduct ..."<<endl;
 	}
 	
-	virtual ~Product( )
+	virtual ~IAbstractProduct( )
 	{
-		cout<< "~Product ..."<<endl;
+		cout<< "~IAbstractProduct ..."<<endl;
 	}
 	
 	virtual void Show( ) = 0;
 };
 
-class ProductA : public Product
+class ProductA : public IAbstractProduct
 {
 public:
 	ProductA( )
@@ -36,7 +36,7 @@ public:
 	}
 };
 
-class ProductB : public Product
+class ProductB : public IAbstractProduct
 {
 public:
 	void Show( )
@@ -45,7 +45,7 @@ public:
 	}
 };
 
-class ProductC : public Product
+class ProductC : public IAbstractProduct
 {
 public:
 	void Show( )
@@ -54,21 +54,21 @@ public:
 	}
 };
 
-class Factory
+class IAbstractFactory
 {
 public:
-	Factory( )
+	IAbstractFactory( )
 	{
-		cout<<"Factory ..."<<endl;
+		cout<<"IAbstractFactory ..."<<endl;
 	}
-	virtual ~Factory( )
+	virtual ~IAbstractFactory( )
 	{
-		cout<<"~Factory ..."<<endl;
+		cout<<"~IAbstractFactory ..."<<endl;
 	}
-	virtual Product *CreateProduct( ) = 0;
+	virtual IAbstractProduct *CreateProduct( ) = 0;
 };
 
-class FactoryA : public Factory
+class FactoryA : public IAbstractFactory
 {
 public:
 	FactoryA( )
@@ -81,25 +81,25 @@ public:
 		cout<<"~FactoryA ..."<<endl;
 	}
 	
-	Product *CreateProduct( )
+	IAbstractProduct *CreateProduct( )
 	{
 		return new ProductA ( );
 	}
 };
 
-class FactoryB : public Factory
+class FactoryB : public IAbstractFactory
 {
 public:
-	Product *CreateProduct( )
+	IAbstractProduct *CreateProduct( )
 	{
 		return new ProductB ( );
 	}
 };
 
-class FactoryC : public Factory
+class FactoryC : public IAbstractFactory
 {
 public:
-	Product *CreateProduct( )
+	IAbstractProduct *CreateProduct( )
 	{
 		return new ProductC ( );
 	}
@@ -107,17 +107,17 @@ public:
 
 int main(int argc , char *argv [])
 {
-	Factory *factoryA = new FactoryA ( );
-	Product *productA = factoryA->CreateProduct( );
+	IAbstractFactory *factoryA = new FactoryA ( );
+	IAbstractProduct *productA = factoryA->CreateProduct( );
 	productA->Show( );
 	
 #if 0
-	Factory *factoryB = new FactoryB ( );
-	Product *productB = factoryB->CreateProduct( );
+	IAbstractFactory *factoryB = new FactoryB ( );
+	IAbstractProduct *productB = factoryB->CreateProduct( );
 	productB->Show( );
 	
-	Factory *factoryC = new FactoryC ( );
-	Product *productC = factoryC->CreateProduct( );
+	IAbstractFactory *factoryC = new FactoryC ( );
+	IAbstractProduct *productC = factoryC->CreateProduct( );
 	productC->Show( );
 #endif
 	if (factoryA != NULL)

@@ -18,7 +18,6 @@ public:
 			std::lock_guard<std::mutex> lck (mtx);
 			if (nullptr == instance)
 			{
-				cout<<"enter new singleton"<<endl;
 				instance = std::unique_ptr<Singleton>(new Singleton);
 			}
 		}

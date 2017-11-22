@@ -1,4 +1,6 @@
 all:
-	g++ -o polymorphism polymorphism.cpp -std=c++11 -lpthread
+	g++ -o polymorphism1 polymorphism1.cpp -std=c++11 -lpthread
+	g++ -o polymorphism2 polymorphism2.cpp -std=c++11 -lpthread
 clean:
-	rm -rf polymorphism
+	rm -rf polymorphism1
+	rm -rf polymorphism2

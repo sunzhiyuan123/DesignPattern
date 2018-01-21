@@ -12,103 +12,114 @@
 
 using namespace std;
 
-ProcessorBase::ProcessorBase(string name_):name(name_)
+void* Thread::startThread(void *pThis)
 {
-	SetThreadStatus(false);
+	Thread *pThread = static_cast<Thread*>(pThis);
+	
+	pThread->StartProcess( );
+	
+	return (void*)NULL;
 }
 
-ProcessorBase::~ProcessorBase( )
+Thread::Thread(string name):name_(name),started_(false)
 {
-	if (GetThreadStatus( ))
+	cout<<"enter Thread"<<endl;
+}
+
+Thread::~Thread( )
+{
+	cout<<"enter ~Thread"<<endl;
+	
+	Stop( );
+}
+
+void Thread::Start( )
+{		
+	if (false == started_)
 	{
-		Stop( );
+		started_ = true;
+		thread_  = std::thread(startThread, this);
 	}
 }
 
-void ProcessorBase::BaseRun(ProcessorBase *self)
+void Thread::Stop( )
 {
-	SetThreadStatus(true);
-	self->StartProcess( );
-	SetThreadStatus(false);
+	if (true == started_)
+	{
+		started_ = false;
+		thread_.join( );
+	}
 }
 
-bool ProcessorBase::Start( )
-{
-	std::lock_guard<std::mutex> lg(mtx);
+// bool Thread::GetStatus( )
+// {
+	// std::lock_guard<std::mutex> lg(mtx_);
 	
-	if (GetThreadStatus( ))
+	// return started_;
+// }
+
+// void Thread::SetStatus(bool started)
+// {
+	// std::lock_guard<std::mutex> lg(mtx_);
+	
+	// started_ = started;
+// }
+
+const string& Thread::GetName( ) const
+{
+	return name_;
+}
+
+////////////////////////////////////////////////////
+class Processor1: public Thread
+{
+public:
+	static Processor1& Instance(string proc_name = "DayNightProcessor")
+    {
+		if (nullptr == instance)
+		{
+			instance = std::unique_ptr<Processor1>(new Processor1(proc_name));
+		}
+		
+        return *instance;
+    }
+	virtual ~Processor1( )
 	{
-		return false;
+		running_ = false;
+		cout<<"enter ~Processor1"<<endl;
+	}
+protected:
+	virtual void StartProcess( ) override;	
+private:
+	Processor1(string proc_name):Thread(proc_name),running_(false)
+	{
+		cout<<"enter Processor1"<<endl;
+	}
+	Processor1(const Processor1&) = delete;
+	Processor1& operator = (const Processor1&) = delete;
+	std::atomic<bool> running_;
+	static std::unique_ptr<Processor1> instance;
+};
+std::unique_ptr<Processor1> Processor1::instance = nullptr;
+
+void Processor1::StartProcess( )
+{
+	running_ = true;
+
+	while (running_)
+	{
+		cout<<"enter test"<<endl;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 	
-	SetThreadStatus(true);
-	thread = std::thread(RunProcessor, this);
-	
-	return true;
-}
-
-bool ProcessorBase::Stop( )
-{
-	std::lock_guard<std::mutex> lg(mtx);
-	
-	if (GetThreadStatus( ))
-	{
-		SetThreadStatus(false);
-		StopProcess( );
-		thread.join( );
-		return true;
-	}
-	
-	return false;
-}
-
-bool ProcessorBase::Restart( )
-{
-	std::lock_guard<std::mutex> lg(mtx);
-	
-	if (GetThreadStatus( ))
-	{
-		SetThreadStatus(false);
-		StopProcess( );
-		thread.join( );
-	}
-	
-	SetThreadStatus(true);
-	thread = std::thread(RunProcessor, this);
-	
-	return true;
-}
-
-bool ProcessorBase::GetThreadStatus( )
-{
-	return status.Get( );
-}
-
-void ProcessorBase::SetThreadStatus(bool status_)
-{
-	status.Set(status_);
-}
-
-void ProcessorBase::SetThreadName(string name_)
-{
-	name = name_;
-}
-
-string ProcessorBase::GetThreadName( )
-{
-	return name;
-}
-
-void *RunProcessor(void *arg)
-{
-	ProcessorBase* proc_ptr = (ProcessorBase*) arg;
-	proc_ptr->BaseRun(proc_ptr);
-	
-	return (void *) NULL;
+	cout<<"exit StartProcess"<<endl;
 }
 
 int main( )
 {
-
+	Processor1::Instance( ).Start( );
+	std::this_thread::sleep_for(std::chrono::seconds(5));
+	//Processor1::Instance( ).Stop( );
+	
 	return 0;
 }

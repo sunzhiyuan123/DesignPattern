@@ -11,57 +11,28 @@
 #include <string>
 #include <unistd.h>
 #include <sstream> 
+#include <atomic>
+
 using namespace std;
 
-void *RunProcessor(void *arg);
-
-template <class T>
-class MtxElem
+class Thread
 {
 public:
-	T Get( )
-	{
-		T e;
-		mtx.lock( );
-		e = elem;
-		mtx.unlock( );
-		return e;
-	}
-	void Set(const T& e)
-	{
-		mtx.lock( );
-		elem = e;
-		mtx.unlock( );
-	}
-private:
-	T elem;
-	mutex mtx;
-};
-
-class ProcessorBase
-{
-public:
-	ProcessorBase(string name_ = "");
-	virtual ~ProcessorBase( );
-	bool Start( );
-	bool Stop( );
-	bool Restart( );
-	void BaseRun(ProcessorBase *self);
-	
+	Thread(string name = "");
+	virtual ~Thread( );
+	void Start( );
+	void Stop( );
+	const string& GetName( ) const;
 protected:
-	void   SetThreadName(string name_);
-	string GetThreadName( );
-	void   SetThreadStatus(bool status_);
-	bool   GetThreadStatus( );
-	
+	// bool GetStatus( );
+	// void SetStatus(bool started);
 	virtual void StartProcess( ) = 0;
-	virtual void StopProcess( )  = 0;
-	
 private:
-	MtxElem<bool> status;
-	string 		  name;
-	std::thread   thread;
-	mutex 		  mtx;
+	static void* startThread(void *args);
+	bool          started_;
+	string 		  name_;
+	std::thread   thread_;
+	std::mutex 	  mtx_;
 };
 
 #endif

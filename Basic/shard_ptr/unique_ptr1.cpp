@@ -88,11 +88,22 @@ void test_unique_ptr3( )
     cout<<*up1<<endl;
 }
 
+//test error
+void test_unique_ptr4( )
+{
+    //不要用get函数获取原生指针之后，对智能指针进行赋值；
+	//因为，get函数获取到的原生指针没有智能指针的信息，导致智能指针无法进行管理对象
+	unique_ptr<int> up1(new int(10));
+	cout<<*up1<<endl;
+	unique_ptr<int> up0(up1.get( ));
+}
+
 int main( )
 {
-	//test_unique_ptr1( );
+	test_unique_ptr1( );
 	//test_unique_ptr2( );
-	test_unique_ptr3( );
+	//test_unique_ptr3( );
+	//test_unique_ptr4( );
 	
     return 0;
 }

@@ -17,7 +17,7 @@ void any_func(void *p)
 int main( )
 {	
 	//离开作用域调用 any_func。
-	shared_ptr<void> A_ptr((void*)0, any_func);
+	shared_ptr<void> A_ptr(new int(10), any_func);
 	
     return 0;
 }

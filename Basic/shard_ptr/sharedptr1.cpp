@@ -45,6 +45,7 @@ int main( )
 	cout << (*ptr1).e << endl;
 	cout << "ptr1 use count: " << ptr1.use_count( ) << endl;
 	cout << ptr1.unique( ) << endl;
+	
 	shared_ptr<Example> ptr2 = ptr1;
     cout << "ptr1 use count: " << ptr1.use_count( ) << endl;
     cout << "ptr2 use count: " << ptr2.use_count( ) << endl;
@@ -73,6 +74,9 @@ int main( )
 	
 	shared_ptr<Example> example_ctl = shared_ptr<Example>(new Example( ));
 	cout << "example_ctl use count: " << example_ctl.use_count( ) << endl;
+	
+	//shared_ptr<Example> ptr5(new Example( ));
+	//shared_ptr<Example> ptr4 = make_shared<Example>( );
 	
     return 0;
 }

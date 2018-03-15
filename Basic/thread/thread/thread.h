@@ -22,9 +22,10 @@ protected:
 	virtual void Process( ) = 0;
 private:
 	void StartThread( );
+	std::string      name_;
 	std::thread   	 thread_;
-	string           name_;
 	std::atomic_bool running_;
+	std::mutex 		 mtx_;
 };
 
 #endif

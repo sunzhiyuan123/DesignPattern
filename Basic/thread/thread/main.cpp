@@ -6,6 +6,7 @@ using namespace std;
 
 int main( )
 {
+#if 0
 	int num = 0;
 	
 	while(1)
@@ -20,6 +21,7 @@ int main( )
 			break;
 		}
 	}
-
+#endif
+	
 	return 0;
 }

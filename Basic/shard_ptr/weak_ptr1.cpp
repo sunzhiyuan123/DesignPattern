@@ -167,9 +167,9 @@ int main( )
 {
 	//test_weak_ptr1( );
 	//test_weak_ptr2( );
-	//test_weak_ptr3( );
+	test_weak_ptr3( );
 	//test_weak_ptr4( );
-	test_weak_ptr5( );
+	//test_weak_ptr5( );
 	
     return 0;
 }

@@ -97,10 +97,10 @@ void test_map3( )
 	//·½·¨4
 	map1[7] = "teacher7";
 	map1[8] = "teacher8";
-		
-	for(map<int,string>::iterator it=map1.begin( );it!=map1.end( );it++)
+	
+	for(auto iter=map1.begin( );iter!=map1.end( );iter++)
 	{
-		cout<<it->first<<" "<<it->second<<endl;
+		cout<<iter->first<<" "<<iter->second<<endl;
 	}
 	
 	map<int,string>::iterator it2 = map1.find(100);
@@ -173,8 +173,8 @@ int main( )
 {
 	//test_map1( );
 	//test_map2( );
-	//test_map3( );
-	test_map4( );
+	test_map3( );
+	//test_map4( );
 	
     return 0;
 }

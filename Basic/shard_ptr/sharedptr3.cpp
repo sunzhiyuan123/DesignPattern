@@ -98,6 +98,43 @@ void test_shared_ptr5( )
 	sp.reset( );               				// deletes managed object  
 }
 
+
+class A
+{
+public:
+	A(int i):num(i)
+	{
+	
+	}
+	~A( )
+	{
+		cout << num << " destroy" << endl;
+	}
+	int getNum( )
+	{
+		return num;
+	}
+private:
+	int num;
+};
+
+//将n个shared_ptr放在vector中，vector会保持每个shared_ptr的引用；vector销毁时，shared_ptr会自动销毁所持对象，释放内存
+void test_shared_ptr6( )
+{
+	vector<shared_ptr<A>> vsptr;
+	
+	for(int i = 0; i < 5; ++i)
+	{
+		shared_ptr<A> x(new A(i));
+		vsptr.push_back(x);
+	}
+	
+	for(int i = 0; i < vsptr.size( ); ++i)
+	{
+		cout << vsptr[i]->getNum( ) << endl;
+	}
+}
+
 int test_shared_ptr_get( )
 {
 	int *p = new int(10);
@@ -123,13 +160,29 @@ void test_shared_ptr_swap( )
 	std::cout<<"*bar:"<<*bar<<endl;
 }
 
+//会造成循环引用 内存并不释放
+//不要用get函数获取原生指针之后，对智能指针进行赋值；
+//因为，get函数获取到的原生指针没有智能指针的信息，导致智能指针无法进行管理对象
+void test_shared_error( )
+{
+	shared_ptr<int> sptr1(new int(10));
+	shared_ptr<int> sptr2(sptr1.get( ));
+	
+	cout<<sptr1.use_count( )<<endl;
+	cout<<sptr2.use_count( )<<endl;
+	cout<<*sptr1<<endl;
+	cout<<*sptr2<<endl;
+}
+
 int main( )
 {
 	//test_shared_ptr3( );
 	//test_shared_ptr4( );
 	//test_shared_ptr5( );
-	test_shared_ptr_get( );
-	test_shared_ptr_swap( );
+	test_shared_ptr6( );
+	//test_shared_error( );
+	//test_shared_ptr_get( );
+	//test_shared_ptr_swap( );
 	
     return 0;
 }

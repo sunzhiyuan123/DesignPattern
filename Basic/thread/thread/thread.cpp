@@ -21,7 +21,8 @@ Thread::~Thread( )
 }
 
 bool Thread::Run( )
-{		
+{
+	std::lock_guard<std::mutex> lck(mtx_);
 	if(running_)
 	{
 		return true;
@@ -35,6 +36,7 @@ bool Thread::Run( )
 
 bool Thread::Stop( )
 {
+	std::lock_guard<std::mutex> lck(mtx_);
 	if(!running_)
 	{
 		return true;
@@ -42,7 +44,7 @@ bool Thread::Stop( )
 	
 	running_ = false;
 	thread_.join( );
-		
+	
 	return true;
 }
 
